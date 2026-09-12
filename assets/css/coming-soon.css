@@ -170,19 +170,35 @@ main { width: min(100%, 620px); }
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 8px 28px;
-  margin-top: 16px;
+  gap: 12px;
+  margin-top: 18px;
 }
 
 .links a {
-  font-size: 13px;
-  border-bottom: 1px solid transparent;
-  transition: color var(--transition-1), border-color var(--transition-1);
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  color: var(--muted);
+  transition: color var(--transition-1), background-color var(--transition-1),
+              border-color var(--transition-1), transform var(--transition-1);
 }
 
-.links a:hover {
+.links a:hover,
+.links a:focus-visible {
   color: var(--gold);
-  border-color: var(--gold);
+  background: var(--bar);
+  border-color: hsla(45, 100%, 72%, 0.45);
+  transform: translateY(-2px);
+}
+
+.links svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
 }
 
 
