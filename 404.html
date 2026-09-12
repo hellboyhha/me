@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 — page not found</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0d0e11">
+
+  <!--
+    - favicon
+  -->
+  <link rel="shortcut icon" href="./assets/images/h-logo.ico" type="image/x-icon">
+
+  <!--
+    - custom css link
+  -->
+  <link rel="stylesheet" href="./assets/css/coming-soon.css">
+</head>
+
+<body>
+
+  <main>
+
+    <h1 class="sr-only">404 — page not found</h1>
+
+    <!--
+      - #TERMINAL
+    -->
+
+    <section class="term" aria-label="Terminal output">
+
+      <div class="bar">
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <p class="title">hein@devops: ~/site</p>
+      </div>
+
+      <div class="body">
+        <p><span class="prompt" aria-hidden="true">$</span> <span id="cmd">curl -sI https://heinhtetaung.info/old-page | head -1</span></p>
+        <p class="out error">HTTP/2 404</p>
+        <p><span class="prompt" aria-hidden="true">$</span> cd ~/site <span class="caret" aria-hidden="true"></span></p>
+      </div>
+
+    </section>
+
+    <!--
+      - #MESSAGE
+    -->
+
+    <p class="caption">404 — page not found · taking you home…</p>
+
+  </main>
+
+  <!--
+    - show the requested url, then walk the visitor home
+  -->
+  <script>
+    (function () {
+      var path = window.location.pathname;
+      var isWeb = /^https?:$/.test(window.location.protocol);
+
+      if (!isWeb || !path || path === '/') return;
+
+      document.getElementById('cmd').textContent =
+        'curl -sI ' + window.location.origin + path + ' | head -1';
+
+      window.setTimeout(function () {
+        window.location.replace('/');
+      }, 4000);
+    })();
+  </script>
+
+</body>
+
+</html>
