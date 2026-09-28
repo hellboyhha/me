@@ -328,24 +328,46 @@
       .strip { position: sticky; top: 0; z-index: 4; }
       .panes { grid-template-columns: minmax(0, 1fr); }
 
-      .side { flex-direction: row; align-items: center; gap: 4px; padding: 9px 12px; border-right: 0; border-bottom: 1px solid var(--line); overflow-x: auto; overflow-y: hidden; scrollbar-width: none; }
+      /* One scrollable tab bar instead of a wrapped stack: the groups flatten
+         into a single row so every section stays on one line. */
+      .side { display: flex; flex-wrap: nowrap; align-items: center; gap: 6px; padding: 9px 12px; border-right: 0; border-bottom: 1px solid var(--line); overflow-x: auto; overflow-y: hidden; scrollbar-width: none; }
       .side::-webkit-scrollbar { display: none; }
       .grp { display: contents; margin: 0; }
       .grp-btn { display: none; }
-      .grp-items, .grp.closed .grp-items { display: flex; flex-direction: row; gap: 6px; }
+      .grp-items, .grp.closed .grp-items { display: contents; }
 
-      .nav-item { width: auto; gap: 7px; padding: 7px 13px; font-size: 12.5px; white-space: nowrap; background: var(--raise); border: 1px solid var(--line); border-radius: 999px; }
+      .nav-item { flex: none; width: auto; gap: 7px; padding: 7px 13px; font-size: 12.5px; white-space: nowrap; background: var(--raise); border: 1px solid var(--line); border-radius: 999px; }
       .nav-item[aria-current="true"] { border-color: transparent; }
       .n-count { display: none; }
 
       .list-pane { border-bottom: 1px solid var(--line); }
-      .tablescroll { max-height: 56vh; }
+      /* Content height, capped — a short table no longer stretches to leave a
+         gap between itself and the detail pane. */
+      .tablescroll { flex: none; max-height: 50vh; }
 
       .detail { border-left: 0; border-top: 1px solid var(--line); overflow: visible; padding: 20px 18px 46px; }
     }
 
     @media (max-width: 560px) {
-      table { min-width: 520px; }
+      /* Fit the table to the screen instead of scrolling sideways: every
+         column stays visible, with tighter padding and narrower secondary
+         columns. */
+      table { min-width: 0; }
+      thead th { letter-spacing: 0.05em; }
+      thead th, tbody td { padding-left: 9px; padding-right: 9px; }
+      th.col-status, td.col-status { width: 100px; }
+      th.col-age, td.col-age { width: 98px; }
+      th.col-code, td.col-code { width: 84px; }
+      th.col-value, td.col-value { width: 64%; }
+
+      /* Secondary columns step aside on a phone; both values still appear in
+         the detail pane below, so nothing is lost. */
+      #table[data-view="projects"] .col-tech,
+      #table[data-view="contact"] .col-status { display: none; }
+
+      .strip { padding: 7px 13px; font-size: 10px; }
+      .crumbs { gap: 6px; }
+
       .searchwrap { flex-wrap: wrap; gap: 8px; }
       .searchbox { order: 1; flex: 1 1 100%; }
       .count { order: 2; }

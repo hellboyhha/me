@@ -507,6 +507,7 @@ try { const s = localStorage.getItem('theme'); setTheme(s ? s === 'light' : wind
     for (let i = 0; i < items.length; i += 1) {
       items[i].setAttribute('aria-current', String(items[i].dataset.view === id));
     }
+    tableEl.dataset.view = id;
     tableEl.setAttribute('aria-label', VIEWS[id].label.toLowerCase() + ', table');
     listEl.setAttribute('aria-label', VIEWS[id].label.toLowerCase() + ', rows');
     selected = null;
