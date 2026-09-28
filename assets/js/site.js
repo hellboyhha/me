@@ -142,7 +142,7 @@ try { const s = localStorage.getItem('theme'); setTheme(s ? s === 'light' : wind
       }))
     },
     certs: {
-      label: 'Certifications', group: 'config', kind: 'credential', placeholder: 'filter certifications',
+      label: 'Certifications', short: 'Certs', group: 'config', kind: 'credential', placeholder: 'filter certifications',
       groupBy: 'issuer', groupOrder: ['CNCF', 'Microsoft', 'AWS', 'HashiCorp', 'Databricks'],
       /* Groups are keyed by their short name so filtering on `cncf` still works,
          but the header can read as the full name. */
@@ -417,13 +417,13 @@ try { const s = localStorage.getItem('theme'); setTheme(s ? s === 'light' : wind
 
   function renderDetail(row) {
     if (!row) {
-      detailEl.innerHTML =
+      dbodyEl.innerHTML =
         '<div class="d-kind">no selection</div>' +
         '<p class="prose">Nothing matches the current filter. Clear the search box to bring the rows back.</p>';
       return;
     }
     const build = DETAIL[row.kind];
-    if (build) detailEl.innerHTML = build(row);
+    if (build) dbodyEl.innerHTML = build(row);
   }
 
   /* --------------------------------------------------------------- elements */
@@ -436,6 +436,7 @@ try { const s = localStorage.getItem('theme'); setTheme(s ? s === 'light' : wind
   const countEl = $('count');
   const kbdEl = $('kbd');
   const detailEl = $('detail');
+  const dbodyEl = $('dbody');
   const crumbsEl = $('crumbs');
   const nsEl = $('ns');
 
@@ -512,6 +513,7 @@ try { const s = localStorage.getItem('theme'); setTheme(s ? s === 'light' : wind
     listEl.setAttribute('aria-label', VIEWS[id].label.toLowerCase() + ', rows');
     selected = null;
     listEl.scrollTop = 0;
+    closeSheet();
     renderTable();
     renderStrip();
     if (viewFromHash() !== id) {
@@ -526,6 +528,34 @@ try { const s = localStorage.getItem('theme'); setTheme(s ? s === 'light' : wind
     selected = key;
     paintSelection();
     renderDetail(row);
+    openSheet();
+  }
+
+  /* On a phone the detail is a full-screen sheet over the list; on desktop the
+     pane is always there, so these are no-ops. */
+  const isPhone = () => window.matchMedia('(max-width: 700px)').matches;
+  let sheetPushed = false;
+
+  function openSheet() {
+    if (!isPhone()) return;
+    document.body.classList.add('detail-open');
+    detailEl.scrollTop = 0;
+    /* A pushed state lets the phone's back button close the sheet instead of
+       dropping the visitor out of the site. */
+    if (!sheetPushed) {
+      try { history.pushState({ sheet: 1 }, ''); sheetPushed = true; } catch (e) { }
+    }
+  }
+
+  function closeSheet(viaHistory) {
+    if (!document.body.classList.contains('detail-open')) return;
+    document.body.classList.remove('detail-open');
+    if (sheetPushed && viaHistory !== true) {
+      sheetPushed = false;
+      try { history.back(); } catch (e) { }
+      return;
+    }
+    sheetPushed = false;
   }
 
   function move(dir) {
@@ -544,7 +574,7 @@ try { const s = localStorage.getItem('theme'); setTheme(s ? s === 'light' : wind
 
   function revealDetail() {
     if (!detailEl) return;
-    if (!window.matchMedia('(max-width: 900px)').matches) return;
+    if (!window.matchMedia('(min-width: 701px) and (max-width: 900px)').matches) return;
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     detailEl.scrollIntoView({ block: 'start', behavior: reduce ? 'auto' : 'smooth' });
   }
@@ -556,6 +586,7 @@ try { const s = localStorage.getItem('theme'); setTheme(s ? s === 'light' : wind
       window.open(row.url, '_blank', 'noopener');
       return;
     }
+    openSheet();
     revealDetail();
   }
 
@@ -565,7 +596,8 @@ try { const s = localStorage.getItem('theme'); setTheme(s ? s === 'light' : wind
       const items = g.items.map((id) =>
         '<button type="button" class="nav-item" data-view="' + esc(id) + '" aria-current="false">' +
           (ICONS[id] || '') +
-          '<span class="n-label">' + esc(VIEWS[id].label) + '</span>' +
+          '<span class="n-label n-full">' + esc(VIEWS[id].label) + '</span>' +
+          '<span class="n-label n-short">' + esc(VIEWS[id].short || VIEWS[id].label) + '</span>' +
           '<span class="n-count">' + rowsOf(id).length + '</span>' +
         '</button>'
       ).join('');
@@ -612,6 +644,8 @@ try { const s = localStorage.getItem('theme'); setTheme(s ? s === 'light' : wind
     const item = e.target.closest('.nav-item');
     if (item) selectView(item.dataset.view);
   });
+
+  window.addEventListener('popstate', () => closeSheet(true));
 
   window.addEventListener('hashchange', () => {
     const id = viewFromHash();
@@ -696,12 +730,20 @@ try { const s = localStorage.getItem('theme'); setTheme(s ? s === 'light' : wind
     openViewer(link.getAttribute('href'), link.getAttribute('data-title'));
   });
 
+  const dcloseEl = $('dclose');
+  if (dcloseEl) dcloseEl.addEventListener('click', closeSheet);
+
   viewer.addEventListener('click', (e) => { if (e.target === viewer) closeViewer(); });
   vclose.addEventListener('click', closeViewer);
 
   document.addEventListener('keydown', (e) => {
     if (!viewer.hidden) {
       if (e.key === 'Escape') { e.preventDefault(); closeViewer(); }
+      return;
+    }
+    if (e.key === 'Escape' && document.body.classList.contains('detail-open')) {
+      e.preventDefault();
+      closeSheet();
       return;
     }
     if ((e.metaKey || e.ctrlKey) && String(e.key).toLowerCase() === 'k') {

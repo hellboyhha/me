@@ -158,6 +158,7 @@
     .nav-item[aria-current="true"] { background: var(--accent); color: hsl(0, 0%, 9%); font-weight: 600; }
     .nav-item[aria-current="true"] svg { stroke: hsl(0, 0%, 9%); opacity: 1; }
     .n-count { margin-left: auto; font: 10.5px var(--mono); color: var(--muted); }
+    .n-short { display: none; }
     .nav-item[aria-current="true"] .n-count { color: hsl(0, 0%, 9%); opacity: 0.65; }
 
     /* ------------------------------------------------------------ table pane */
@@ -293,6 +294,10 @@
 
     .dactions { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 22px; }
 
+    /* A phone opens the detail as a sheet; the back bar never shows on desktop. */
+    .d-close { display: none; }
+    .d-close svg { width: 16px; height: 16px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
     /* ------------------------------------------------------- credential viewer */
     /* Certificates open in a window over the current tab instead of a new one.
        Links that block framing fall back to a normal new tab — see the
@@ -348,31 +353,95 @@
       .detail { border-left: 0; border-top: 1px solid var(--line); overflow: visible; padding: 20px 18px 46px; }
     }
 
-    @media (max-width: 560px) {
-      /* Fit the table to the screen instead of scrolling sideways: every
-         column stays visible, with tighter padding and narrower secondary
-         columns. */
-      table { min-width: 0; }
-      thead th { letter-spacing: 0.05em; }
-      thead th, tbody td { padding-left: 9px; padding-right: 9px; }
-      th.col-status, td.col-status { width: 100px; }
-      th.col-age, td.col-age { width: 98px; }
-      th.col-code, td.col-code { width: 84px; }
-      th.col-value, td.col-value { width: 64%; }
-
-      /* Secondary columns step aside on a phone; both values still appear in
-         the detail pane below, so nothing is lost. */
-      #table[data-view="projects"] .col-tech,
-      #table[data-view="contact"] .col-status { display: none; }
+    /* -------------------------------------------------------------- phone */
+    /* A phone gets a compact console: the sections move to a bottom tab bar,
+       each row becomes a card, and the detail slides up as a full-screen
+       sheet. Same markup and data — only the presentation changes. */
+    @media (max-width: 700px) {
+      html, body { height: auto; }
+      body { min-height: 100%; padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)); }
+      body.detail-open { overflow: hidden; }
 
       .strip { padding: 7px 13px; font-size: 10px; }
       .crumbs { gap: 6px; }
-
-      .searchwrap { flex-wrap: wrap; gap: 8px; }
-      .searchbox { order: 1; flex: 1 1 100%; }
-      .count { order: 2; }
-      kbd { order: 3; }
-      .kv-k { width: 76px; }
-      .detail { padding: 18px 15px 44px; }
       .ns .ctx { display: none; }
+      .panes { grid-template-columns: minmax(0, 1fr); }
+
+      /* --- bottom tab bar --- */
+      .side {
+        position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
+        display: flex; flex-wrap: nowrap; gap: 0;
+        padding: 6px 6px calc(6px + env(safe-area-inset-bottom, 0px));
+        background: var(--surface); border-top: 1px solid var(--line); border-bottom: 0;
+        overflow: visible;
+      }
+      .grp { display: contents; margin: 0; }
+      .grp-btn { display: none; }
+      .grp-items, .grp.closed .grp-items { display: contents; }
+      .nav-item {
+        flex: 1 1 0; min-width: 0; flex-direction: column; gap: 3px; width: auto;
+        padding: 7px 2px; background: none; border: 0; border-radius: 9px;
+        font-size: 9.5px; white-space: nowrap; color: var(--muted);
+      }
+      .nav-item svg { width: 19px; height: 19px; opacity: 1; }
+      .nav-item[aria-current="true"] { background: none; color: var(--accent); }
+      .nav-item[aria-current="true"] svg { stroke: var(--accent); }
+      .n-full { display: none; }
+      .n-short { display: inline; }
+      .n-count { display: none; }
+
+      /* --- search --- */
+      .searchwrap { gap: 8px; }
+      kbd { display: none; }
+
+      /* --- rows become cards --- */
+      .list-pane { border-bottom: 0; }
+      .tablescroll { flex: none; max-height: none; overflow: visible; }
+      table, tbody, tr, td, th { display: block; }
+      table { width: auto; }
+      thead { display: none; }
+      tbody tr {
+        display: flex; flex-wrap: wrap; align-items: center;
+        column-gap: 10px; row-gap: 7px;
+        margin: 0 0 9px; padding: 13px 14px; cursor: pointer;
+        background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+      }
+      tbody tr.alt td { background: none; }
+      tbody tr:hover td { background: none; }
+      tbody tr[aria-current="true"] { border-color: var(--accent); }
+      tbody td { min-width: 0; width: auto !important; padding: 0; border: 0; text-align: left !important; }
+      tbody td:first-child { flex: 1 1 100%; }
+      tbody td:not(:first-child) { flex: 0 0 auto; }
+      tbody td.col-value { flex: 1 1 100%; }
+      .cellsub { white-space: normal; overflow: visible; text-overflow: clip; }
+
+      /* the tech column lives in the sheet, not the card */
+      #table[data-view="projects"] .col-tech { display: none; }
+
+      /* group headings and the empty state sit outside the card pattern */
+      tbody tr.grp-row { display: block; margin: 16px 0 8px; padding: 0 3px; background: none; border: 0; cursor: default; }
+      tbody tr.grp-row:hover th { background: none; }
+      tbody th.grp-cell { padding: 0; border: 0; }
+      tbody tr.empty { display: block; margin: 0; padding: 26px 3px; background: none; border: 0; cursor: default; }
+
+      /* --- detail slides up as a sheet --- */
+      .detail {
+        position: fixed; inset: 0; z-index: 30;
+        padding: 0; background: var(--surface); border: 0;
+        overflow-y: auto; overscroll-behavior: contain;
+        transform: translateY(100%); visibility: hidden;
+        transition: transform 0.24s ease, visibility 0s linear 0.24s;
+      }
+      body.detail-open .detail { transform: none; visibility: visible; transition: transform 0.24s ease; }
+      .d-close {
+        display: flex; align-items: center; gap: 8px;
+        position: sticky; top: 0; z-index: 2; width: 100%;
+        padding: 13px 18px; background: var(--surface);
+        border: 0; border-bottom: 1px solid var(--line);
+        color: var(--soft); font: 12px var(--mono); letter-spacing: 0.04em;
+        text-align: left; cursor: pointer; transition: color 0.18s ease;
+      }
+      .d-close:hover { color: var(--accent); }
+      .d-body { padding: 18px 18px calc(84px + env(safe-area-inset-bottom, 0px)); }
+      .kv-k { width: 76px; }
     }
