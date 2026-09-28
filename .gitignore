@@ -4,3 +4,6 @@
 # local agent files — never committed
 .agents/
 AGENTS.md
+
+# design previews — never committed
+designs/

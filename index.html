@@ -3,93 +3,97 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hein — DevOps Engineer</title>
-  <meta name="description" content="Hein Htet Aung — DevOps engineer. A new site is on the way; until then, find me on LinkedIn or Medium.">
+  <title>Hein Htet Aung — DevOps Engineer</title>
+  <meta name="description" content="DevOps engineer in Dubai working with Kubernetes, Terraform, Azure and AWS. Kubestronaut — all five CNCF Kubernetes certifications.">
   <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
-  <meta name="theme-color" content="#0d0e11">
-
-  <!--
-    - open graph
-  -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://heinhtetaung.info/">
-  <meta property="og:title" content="Hein — DevOps Engineer">
-  <meta property="og:description" content="A new site is coming soon. Until then, find me on LinkedIn or Medium.">
-  <meta property="og:image" content="https://heinhtetaung.info/assets/images/hein-profile.jpg">
-  <meta name="twitter:card" content="summary">
-
-  <!--
-    - favicon
-  -->
-  <link rel="shortcut icon" href="./assets/images/h-logo.ico" type="image/x-icon">
-
-  <!--
-    - custom css link
-  -->
-  <link rel="stylesheet" href="./assets/css/coming-soon.css">
+  <link rel="icon" href="assets/images/h-logo.ico">
+  <link rel="stylesheet" href="assets/css/style.css?v=20260913">
 </head>
 
 <body>
 
-  <main>
 
-    <h1 class="sr-only">Hein Htet Aung — DevOps engineer — new site coming soon</h1>
-
-    <!--
-      - #TERMINAL
-    -->
-
-    <section class="term" aria-label="Terminal output">
-
-      <div class="bar">
-        <span class="dot"></span>
-        <span class="dot"></span>
-        <span class="dot"></span>
-        <p class="title">hein@devops: ~/site</p>
+  <header>
+    <div class="who">
+      <img class="avatar" src="assets/images/hein-profile.jpg" alt="Hein Htet Aung">
+      <div>
+        <div><span class="name">Hein Htet Aung</span> <span class="role">devops engineer</span></div>
+        <span class="location">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.1 7-11a7 7 0 1 0-14 0c0 4.9 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>
+          current location: <b>Dubai, UAE</b>
+        </span>
       </div>
-
-      <div class="body">
-        <p><span class="prompt" aria-hidden="true">$</span> whoami</p>
-        <p class="out">hein — devops engineer</p>
-
-        <p><span class="prompt" aria-hidden="true">$</span> journalctl -u site -f</p>
-        <p class="out">-- Logs begin at Sat 2026-09-12 07:42:11 UTC. --</p>
-        <p class="out">Sep 12 09:00:01 devops site[847]: pulling latest changes</p>
-        <p class="out">Sep 12 09:00:04 devops site[847]: building pages</p>
-        <p class="out ok">Sep 12 09:00:06 devops site[847]: coming soon — stay tuned</p>
-
-        <p><span class="prompt" aria-hidden="true">$</span> <span class="caret" aria-hidden="true"></span></p>
+    </div>
+    <div class="actions">
+      <a class="btn" data-link="email" href="mailto:heinhtetaung.hha@hotmail.com">email ↗</a>
+      <a class="btn" data-link="linkedin" href="https://www.linkedin.com/in/hein-htet-aung-hha/" target="_blank" rel="noopener">linkedin ↗</a>
+      <a class="btn" data-link="github" href="https://github.com/hellboyhha" target="_blank" rel="noopener">github ↗</a>
+      <div class="switch" role="group" aria-label="colour theme">
+        <button type="button" id="to-light" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M5 5l1.7 1.7M17.3 17.3L19 19M19 5l-1.7 1.7M6.7 17.3L5 19"/></svg>light</button>
+        <button type="button" id="to-dark" aria-pressed="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></svg>dark</button>
       </div>
+    </div>
+  </header>
 
-    </section>
+  <div class="app">
 
-    <!--
-      - #LINKS
-    -->
+    <div class="strip">
+      <div class="crumbs" id="crumbs"></div>
+      <div class="ns" id="ns"></div>
+    </div>
 
-    <p class="caption">meanwhile, find me here</p>
+    <div class="panes">
 
-    <ul class="links">
-      <li>
-        <a href="https://www.linkedin.com/in/hein-htet-aung-hha/" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn">
-          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-          </svg>
-        </a>
-      </li>
-      <li>
-        <a href="https://medium.com/@devopsdecode" target="_blank" rel="noopener" aria-label="Medium" title="Medium">
-          <svg viewBox="0 4.5 24 15" aria-hidden="true" focusable="false">
-            <path d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z"/>
-          </svg>
-        </a>
-      </li>
-    </ul>
+      <nav class="side" id="nav" aria-label="cluster sections"></nav>
 
-  </main>
+      <section class="list-pane">
 
+        <div class="searchwrap" role="search">
+          <div class="searchbox">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.4"/><path d="m15.8 15.8 4.2 4.2"/></svg>
+            <label class="sr-only" for="q">filter rows</label>
+            <input id="q" type="search" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="filter" aria-describedby="count">
+          </div>
+          <span class="count" id="count" aria-live="polite"></span>
+          <kbd id="kbd">⌘K</kbd>
+        </div>
+
+        <div class="tablescroll" id="tablescroll" tabindex="0" role="region" aria-label="rows">
+          <table id="table">
+            <thead>
+              <tr id="thead"></tr>
+            </thead>
+            <tbody id="rows"></tbody>
+          </table>
+        </div>
+
+      </section>
+
+      <aside class="detail" id="detail" aria-label="details">
+        <noscript>
+          <div class="d-kind">no javascript</div>
+          <p class="prose">This preview builds its cluster view at runtime — enable JavaScript to explore it.</p>
+        </noscript>
+      </aside>
+
+    </div>
+
+  </div>
+
+  <div class="viewer" id="viewer" hidden>
+    <div class="vwin" role="dialog" aria-modal="true" aria-labelledby="vtitle">
+      <div class="vbar">
+        <span class="vtitle" id="vtitle"></span>
+        <button type="button" class="vclose" id="vclose" title="close (Esc)">close ✕</button>
+      </div>
+      <div class="vbody" id="vbody"></div>
+      <div class="vfoot" id="vfoot"></div>
+    </div>
+  </div>
+
+  <script src="assets/js/data.js?v=20260913"></script>
+  <script src="assets/js/site.js?v=20260913"></script>
 </body>
 
 </html>

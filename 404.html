@@ -3,77 +3,200 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>404 — page not found</title>
-  <meta name="robots" content="noindex, nofollow">
-  <meta name="theme-color" content="#0d0e11">
+  <title>404 — heinhtetaung.info</title>
+  <meta name="robots" content="noindex">
+  <style>
+    :root {
+      --bg: #1e2124;
+      --surface: #262b2f;
+      --raise: #36393e;
+      --line: #4c5053;
+      --text: #ffffff;
+      --soft: #a0a0a0;
+      --muted: #8e9297;
+      --accent: #00a7a0;
+      --red: #ce3933;
+      --sans: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+      --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+    }
 
-  <!--
-    - favicon
-  -->
-  <link rel="shortcut icon" href="./assets/images/h-logo.ico" type="image/x-icon">
+    body.light {
+      --bg: #f1f1f1;
+      --surface: #ffffff;
+      --raise: #e8e8e8;
+      --line: #c9cfd3;
+      --text: #222222;
+      --soft: #51575d;
+      --muted: #555555;
+      --accent: #00a7a0;
+      --red: #ce3933;
+    }
 
-  <!--
-    - custom css link
-  -->
-  <link rel="stylesheet" href="./assets/css/coming-soon.css">
+    /* ---------- self-hosted typefaces (no external requests) ---------- */
+    @font-face { font-family: 'Space Grotesk'; src: url('assets/fonts/space-grotesk.woff2') format('woff2'); font-weight: 300 700; font-display: swap; }
+    @font-face { font-family: 'JetBrains Mono'; src: url('assets/fonts/jetbrains-mono.woff2') format('woff2'); font-weight: 100 800; font-display: swap; }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body { min-height: 100%; }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(16px, 5vw, 64px);
+      background: var(--bg);
+      color: var(--text);
+      font: 14px/1.55 var(--sans);
+      -webkit-font-smoothing: antialiased;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    /* ----------------------------------------------------------------- window */
+    .win {
+      width: min(760px, 100%);
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 26px 70px hsla(0, 0%, 0%, 0.42);
+    }
+
+    .bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 14px;
+      border-bottom: 1px solid var(--line);
+      background: var(--raise);
+      font: 11.5px var(--mono);
+      color: var(--muted);
+    }
+
+    .dot { flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--red); box-shadow: 0 0 0 3px color-mix(in srgb, var(--red) 16%, transparent); }
+    .bar a { color: var(--soft); text-decoration: none; border-bottom: 1px solid transparent; }
+    .bar a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+    .bar .sl { color: var(--line); }
+    .bar .ctx { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    /* ------------------------------------------------------------------- body */
+    .body { padding: clamp(22px, 3.4vw, 34px); }
+
+    .kind { font: 10px var(--mono); letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+
+    .err {
+      margin-top: 12px;
+      font: 400 15px/1.7 var(--mono);
+      color: var(--text);
+      word-break: break-word;
+    }
+
+    .err b { color: var(--red); font-weight: 400; }
+    .err i { color: var(--accent); font-style: normal; }
+
+    .kv { margin-top: 20px; background: var(--bg); border: 1px solid var(--line); border-radius: 11px; overflow: hidden; }
+    .row { display: flex; align-items: baseline; gap: 16px; padding: 11px 14px; border-bottom: 1px solid var(--line); }
+    .row:last-child { border-bottom: 0; }
+    .k { flex: none; width: 84px; font: 10px var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+    .v { min-width: 0; font: 13.5px var(--mono); color: var(--soft); word-break: break-all; }
+
+    .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 9px; margin-top: 22px; }
+
+    .count { font: 11.5px var(--mono); color: var(--muted); }
+
+    .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: var(--raise);
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      color: var(--soft);
+      font: 12.5px var(--mono);
+      padding: 8px 14px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .btn:hover { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 45%, transparent); }
+    .btn.primary { background: var(--accent); border-color: transparent; color: hsl(0, 0%, 9%); font-weight: 600; }
+    .btn.primary:hover { color: hsl(0, 0%, 9%); }
+
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+    @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+  </style>
 </head>
 
 <body>
+  <main class="win">
+    <div class="bar">
+      <span class="dot"></span>
+      <a href="/">heinhtetaung.info</a>
+      <span class="sl">/</span>
+      <span class="ctx" data-path>/</span>
+    </div>
 
-  <main>
+    <div class="body">
+      <div class="kind">server response</div>
 
-    <h1 class="sr-only">404 — page not found</h1>
+      <p class="err">
+        Error from server <b>(NotFound)</b>: paths <i>"<span data-path>/</span>"</i> not found
+      </p>
 
-    <!--
-      - #TERMINAL
-    -->
-
-    <section class="term" aria-label="Terminal output">
-
-      <div class="bar">
-        <span class="dot"></span>
-        <span class="dot"></span>
-        <span class="dot"></span>
-        <p class="title">hein@devops: ~/site</p>
+      <div class="kv">
+        <div class="row"><span class="k">cluster</span><span class="v">heinhtetaung.info</span></div>
+        <div class="row"><span class="k">context</span><span class="v" data-path>/</span></div>
+        <div class="row"><span class="k">status</span><span class="v">404 Not Found</span></div>
       </div>
 
-      <div class="body">
-        <p><span class="prompt" aria-hidden="true">$</span> <span id="cmd">curl -sI https://heinhtetaung.info/old-page | head -1</span></p>
-        <p class="out error">HTTP/2 404</p>
-        <p><span class="prompt" aria-hidden="true">$</span> cd ~/site <span class="caret" aria-hidden="true"></span></p>
+      <div class="actions">
+        <a class="btn primary" href="/">reconnect →</a>
+        <span class="count" id="count" aria-hidden="true">reconnecting in 4s</span>
+        <span class="sr-only" role="status">Returning to the home page in 4 seconds. Use reconnect to go now.</span>
       </div>
-
-    </section>
-
-    <!--
-      - #MESSAGE
-    -->
-
-    <p class="caption">404 — page not found · taking you home…</p>
-
+    </div>
   </main>
 
-  <!--
-    - show the requested url, then walk the visitor home
-  -->
   <script>
     (function () {
-      var path = window.location.pathname;
-      var isWeb = /^https?:$/.test(window.location.protocol);
+      /* The path a visitor asked for, echoed back the way a client would quote
+         a missing resource. Capped so a long URL can't wreck the layout, and
+         decoded defensively — a 404 is exactly where malformed URLs land. */
+      var path = location.pathname || '/';
+      try { path = decodeURIComponent(path); } catch (e) { }
+      if (path.length > 96) path = path.slice(0, 95) + '…';
 
-      if (!isWeb || !path || path === '/') return;
+      var nodes = document.querySelectorAll('[data-path]');
+      for (var i = 0; i < nodes.length; i++) nodes[i].textContent = path;
 
-      document.getElementById('cmd').textContent =
-        'curl -sI ' + window.location.origin + path + ' | head -1';
+      try {
+        if (localStorage.getItem('theme') === 'light') document.body.classList.add('light');
+      } catch (e) { }
 
-      window.setTimeout(function () {
-        window.location.replace('/');
-      }, 4000);
+      /* Drift back to the site after a beat rather than leaving someone on a
+         dead end. It says so first, because a silent redirect reads as a
+         glitch, and `replace` keeps the broken URL out of history so Back
+         doesn't land them here again. */
+      var left = 4;
+      var count = document.getElementById('count');
+      var timer = setInterval(function () {
+        left -= 1;
+        if (left > 0) { count.textContent = 'reconnecting in ' + left + 's'; return; }
+        clearInterval(timer);
+        location.replace('/');
+      }, 1000);
+
+      /* Going manually should not leave a timer running behind it. */
+      Array.prototype.forEach.call(document.querySelectorAll('a[href="/"]'), function (a) {
+        a.addEventListener('click', function () { clearInterval(timer); });
+      });
     })();
   </script>
-
 </body>
 
 </html>
