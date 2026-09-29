@@ -1,3 +1,13 @@
+function setTheme(light, persist) {
+  document.body.classList.toggle('light', light);
+  document.getElementById('to-light').setAttribute('aria-pressed', String(light));
+  document.getElementById('to-dark').setAttribute('aria-pressed', String(!light));
+  if (persist !== false) { try { localStorage.setItem('theme', light ? 'light' : 'dark'); } catch (e) {} }
+}
+document.getElementById('to-light').addEventListener('click', () => setTheme(true));
+document.getElementById('to-dark').addEventListener('click', () => setTheme(false));
+try { const s = localStorage.getItem('theme'); setTheme(s ? s === 'light' : window.matchMedia('(prefers-color-scheme: light)').matches, false); } catch (e) { setTheme(false, false); }
+
 (function () {
   'use strict';
 

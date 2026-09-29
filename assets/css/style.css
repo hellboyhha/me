@@ -15,22 +15,21 @@
       --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
     }
 
-    /* The palette follows the visitor's OS, so there is no switch to carry. */
-    @media (prefers-color-scheme: light) {
-      :root {
-        --bg: #f1f1f1;
-        --surface: #ffffff;
-        --raise: #e8e8e8;
-        --stripe: #f8f8f8;
-        --selected: #f4f5f5;
-        --foot: #f4f4f4;
-        --line: #c9cfd3;
-        --text: #222222;
-        --soft: #51575d;
-        --muted: #555555;
-        --accent: #00a7a0;
-        --green: #399c3d;
-      }
+    /* The palette follows the visitor's OS by default and the switch — shown
+       only on wider screens — lets them override it. site.js owns the class. */
+    body.light {
+      --bg: #f1f1f1;
+      --surface: #ffffff;
+      --raise: #e8e8e8;
+      --stripe: #f8f8f8;
+      --selected: #f4f5f5;
+      --foot: #f4f4f4;
+      --line: #c9cfd3;
+      --text: #222222;
+      --soft: #51575d;
+      --muted: #555555;
+      --accent: #00a7a0;
+      --green: #399c3d;
     }
 
     /* ---------- self-hosted typefaces (no external requests) ---------- */
@@ -63,6 +62,11 @@
     .btn { display:inline-flex; align-items:center; gap:7px; background:var(--raise); border:1px solid var(--line); border-radius:9px; color:var(--soft); font:12.5px var(--mono); padding:8px 13px; text-decoration:none; cursor:pointer; transition:.2s ease; }
     .btn:hover { color:var(--accent); border-color:color-mix(in srgb, var(--accent) 45%, transparent); }
     .btn.primary { background:var(--accent); border-color:transparent; color:hsl(0,0%,9%); font-weight:600; }
+    .switch { display:inline-flex; border:1px solid var(--line); border-radius:9px; overflow:hidden; }
+    .switch button { display:inline-flex; align-items:center; gap:6px; background:var(--raise); border:0; color:var(--muted); font:12px var(--mono); padding:8px 12px; cursor:pointer; transition:.2s ease; }
+    .switch button + button { border-left:1px solid var(--line); }
+    .switch button[aria-pressed="true"] { background:var(--accent); color:hsl(0,0%,9%); font-weight:600; }
+    .switch svg { width:13px; height:13px; fill:none; stroke:currentColor; stroke-width:1.6; }
 
     /* ------------------------------------------------------------------ shell */
     .app { flex: 1; min-height: 0; display: flex; flex-direction: column; }
