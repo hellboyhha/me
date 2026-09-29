@@ -4,7 +4,7 @@
  */
 window.SITE = {
   name: 'Hein Htet Aung',
-  role: 'an engineer working with Kubernetes',
+  role: 'devops engineer',
   location: 'Dubai, UAE',
   email: 'heinhtetaung.hha@hotmail.com',
 
