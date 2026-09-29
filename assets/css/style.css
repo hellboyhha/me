@@ -15,19 +15,22 @@
       --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
     }
 
-    body.light {
-      --bg: #f1f1f1;
-      --surface: #ffffff;
-      --raise: #e8e8e8;
-      --stripe: #f8f8f8;
-      --selected: #f4f5f5;
-      --foot: #f4f4f4;
-      --line: #c9cfd3;
-      --text: #222222;
-      --soft: #51575d;
-      --muted: #555555;
-      --accent: #00a7a0;
-      --green: #399c3d;
+    /* The palette follows the visitor's OS, so there is no switch to carry. */
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #f1f1f1;
+        --surface: #ffffff;
+        --raise: #e8e8e8;
+        --stripe: #f8f8f8;
+        --selected: #f4f5f5;
+        --foot: #f4f4f4;
+        --line: #c9cfd3;
+        --text: #222222;
+        --soft: #51575d;
+        --muted: #555555;
+        --accent: #00a7a0;
+        --green: #399c3d;
+      }
     }
 
     /* ---------- self-hosted typefaces (no external requests) ---------- */
@@ -60,11 +63,6 @@
     .btn { display:inline-flex; align-items:center; gap:7px; background:var(--raise); border:1px solid var(--line); border-radius:9px; color:var(--soft); font:12.5px var(--mono); padding:8px 13px; text-decoration:none; cursor:pointer; transition:.2s ease; }
     .btn:hover { color:var(--accent); border-color:color-mix(in srgb, var(--accent) 45%, transparent); }
     .btn.primary { background:var(--accent); border-color:transparent; color:hsl(0,0%,9%); font-weight:600; }
-    .switch { display:inline-flex; border:1px solid var(--line); border-radius:9px; overflow:hidden; }
-    .switch button { display:inline-flex; align-items:center; gap:6px; background:var(--raise); border:0; color:var(--muted); font:12px var(--mono); padding:8px 12px; cursor:pointer; transition:.2s ease; }
-    .switch button + button { border-left:1px solid var(--line); }
-    .switch button[aria-pressed="true"] { background:var(--accent); color:hsl(0,0%,9%); font-weight:600; }
-    .switch svg { width:13px; height:13px; fill:none; stroke:currentColor; stroke-width:1.6; }
 
     /* ------------------------------------------------------------------ shell */
     .app { flex: 1; min-height: 0; display: flex; flex-direction: column; }
@@ -158,7 +156,6 @@
     .nav-item[aria-current="true"] { background: var(--accent); color: hsl(0, 0%, 9%); font-weight: 600; }
     .nav-item[aria-current="true"] svg { stroke: hsl(0, 0%, 9%); opacity: 1; }
     .n-count { margin-left: auto; font: 10.5px var(--mono); color: var(--muted); }
-    .n-short { display: none; }
     .nav-item[aria-current="true"] .n-count { color: hsl(0, 0%, 9%); opacity: 0.65; }
 
     /* ------------------------------------------------------------ table pane */
@@ -354,49 +351,52 @@
     }
 
     /* -------------------------------------------------------------- phone */
-    /* A phone gets a compact console: the sections move to a bottom tab bar,
-       each row becomes a card, and the detail slides up as a full-screen
-       sheet. Same markup and data — only the presentation changes. */
+    /* A phone gets a compact console: the sections move into the header, each
+       row becomes a card, and the detail slides up as a full-screen sheet.
+       Same markup and data — only the presentation changes. */
     @media (max-width: 700px) {
       html, body { height: auto; }
-      body { min-height: 100%; padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)); }
+      body { min-height: 100%; }
       body.detail-open { overflow: hidden; }
 
-      .strip { padding: 7px 13px; font-size: 10px; }
-      .crumbs { gap: 6px; }
-      .ns .ctx { display: none; }
-      .panes { grid-template-columns: minmax(0, 1fr); }
+      /* the identity block and the section row read as one panel */
+      header { display: block; padding: 18px 20px 0; border-bottom: 0; }
+      .who { margin-bottom: 14px; }
+      .actions { display: none; }
 
-      /* --- bottom tab bar --- */
+      /* flatten the panes so the sections can sit directly under the header */
+      .panes { display: contents; }
       .side {
-        position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
-        display: flex; flex-wrap: nowrap; gap: 0;
-        padding: 6px 6px calc(6px + env(safe-area-inset-bottom, 0px));
-        background: var(--surface); border-top: 1px solid var(--line); border-bottom: 0;
+        order: 1;
+        display: flex; flex-wrap: wrap; align-items: center; gap: 6px;
+        padding: 0 20px 14px;
+        background: var(--surface); border-right: 0; border-bottom: 1px solid var(--line);
         overflow: visible;
       }
       .grp { display: contents; margin: 0; }
       .grp-btn { display: none; }
       .grp-items, .grp.closed .grp-items { display: contents; }
       .nav-item {
-        flex: 1 1 0; min-width: 0; flex-direction: column; gap: 3px; width: auto;
-        padding: 7px 2px; background: none; border: 0; border-radius: 9px;
-        font-size: 9.5px; white-space: nowrap; color: var(--muted);
+        flex: none; flex-direction: row; width: auto; gap: 7px;
+        padding: 6px 11px; font-size: 12px; color: var(--soft);
+        background: var(--raise); border: 1px solid var(--line); border-radius: 999px;
       }
-      .nav-item svg { width: 19px; height: 19px; opacity: 1; }
-      .nav-item[aria-current="true"] { background: none; color: var(--accent); }
-      .nav-item[aria-current="true"] svg { stroke: var(--accent); }
-      .n-full { display: none; }
-      .n-short { display: inline; }
+      .nav-item svg { width: 14px; height: 14px; opacity: 1; }
+      .nav-item[aria-current="true"] { background: var(--accent); border-color: transparent; color: hsl(0, 0%, 9%); }
+      .nav-item[aria-current="true"] svg { stroke: hsl(0, 0%, 9%); }
       .n-count { display: none; }
+
+      .strip { order: 2; padding: 7px 13px; font-size: 10px; }
+      .crumbs { gap: 6px; }
+      .ns .ctx { display: none; }
 
       /* --- search --- */
       .searchwrap { gap: 8px; }
       kbd { display: none; }
 
       /* --- rows become cards --- */
-      .list-pane { border-bottom: 0; }
-      .tablescroll { flex: none; max-height: none; overflow: visible; }
+      .list-pane { order: 3; border-bottom: 0; }
+      .tablescroll { flex: none; max-height: none; overflow: visible; padding: 12px 14px 14px; }
       table, tbody, tr, td, th { display: block; }
       table { width: auto; }
       thead { display: none; }
@@ -419,9 +419,12 @@
       #table[data-view="projects"] .col-tech { display: none; }
 
       /* group headings and the empty state sit outside the card pattern */
-      tbody tr.grp-row { display: block; margin: 16px 0 8px; padding: 0 3px; background: none; border: 0; cursor: default; }
+      tbody tr.grp-row { display: block; margin: 16px 0 8px; padding: 0; background: none; border: 0; cursor: default; }
       tbody tr.grp-row:hover th { background: none; }
       tbody th.grp-cell { padding: 0; border: 0; }
+      /* The first row sits right under the search bar, so it takes no top margin
+         of its own — otherwise a group heading doubles up on the gap. */
+      tbody tr:first-child { margin-top: 0; }
       tbody tr.empty { display: block; margin: 0; padding: 26px 3px; background: none; border: 0; cursor: default; }
 
       /* --- detail slides up as a sheet --- */
@@ -442,6 +445,6 @@
         text-align: left; cursor: pointer; transition: color 0.18s ease;
       }
       .d-close:hover { color: var(--accent); }
-      .d-body { padding: 18px 18px calc(84px + env(safe-area-inset-bottom, 0px)); }
+      .d-body { padding: 18px 18px 46px; }
       .kv-k { width: 76px; }
     }

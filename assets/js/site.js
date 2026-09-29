@@ -1,13 +1,3 @@
-function setTheme(light, persist) {
-  document.body.classList.toggle('light', light);
-  document.getElementById('to-light').setAttribute('aria-pressed', String(light));
-  document.getElementById('to-dark').setAttribute('aria-pressed', String(!light));
-  if (persist !== false) { try { localStorage.setItem('theme', light ? 'light' : 'dark'); } catch (e) {} }
-}
-document.getElementById('to-light').addEventListener('click', () => setTheme(true));
-document.getElementById('to-dark').addEventListener('click', () => setTheme(false));
-try { const s = localStorage.getItem('theme'); setTheme(s ? s === 'light' : window.matchMedia('(prefers-color-scheme: light)').matches, false); } catch (e) { setTheme(false, false); }
-
 (function () {
   'use strict';
 
@@ -142,7 +132,7 @@ try { const s = localStorage.getItem('theme'); setTheme(s ? s === 'light' : wind
       }))
     },
     certs: {
-      label: 'Certifications', short: 'Certs', group: 'config', kind: 'credential', placeholder: 'filter certifications',
+      label: 'Certifications', group: 'config', kind: 'credential', placeholder: 'filter certifications',
       groupBy: 'issuer', groupOrder: ['CNCF', 'Microsoft', 'AWS', 'HashiCorp', 'Databricks'],
       /* Groups are keyed by their short name so filtering on `cncf` still works,
          but the header can read as the full name. */
@@ -596,8 +586,7 @@ try { const s = localStorage.getItem('theme'); setTheme(s ? s === 'light' : wind
       const items = g.items.map((id) =>
         '<button type="button" class="nav-item" data-view="' + esc(id) + '" aria-current="false">' +
           (ICONS[id] || '') +
-          '<span class="n-label n-full">' + esc(VIEWS[id].label) + '</span>' +
-          '<span class="n-label n-short">' + esc(VIEWS[id].short || VIEWS[id].label) + '</span>' +
+          '<span class="n-label">' + esc(VIEWS[id].label) + '</span>' +
           '<span class="n-count">' + rowsOf(id).length + '</span>' +
         '</button>'
       ).join('');

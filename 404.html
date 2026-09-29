@@ -21,16 +21,19 @@
       --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
     }
 
-    body.light {
-      --bg: #f1f1f1;
-      --surface: #ffffff;
-      --raise: #e8e8e8;
-      --line: #c9cfd3;
-      --text: #222222;
-      --soft: #51575d;
-      --muted: #555555;
-      --accent: #00a7a0;
-      --red: #ce3933;
+    /* The palette follows the visitor's OS. */
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #f1f1f1;
+        --surface: #ffffff;
+        --raise: #e8e8e8;
+        --line: #c9cfd3;
+        --text: #222222;
+        --soft: #51575d;
+        --muted: #555555;
+        --accent: #00a7a0;
+        --red: #ce3933;
+      }
     }
 
     /* ---------- self-hosted typefaces (no external requests) ---------- */
@@ -174,10 +177,7 @@
       var nodes = document.querySelectorAll('[data-path]');
       for (var i = 0; i < nodes.length; i++) nodes[i].textContent = path;
 
-      try {
-        if (localStorage.getItem('theme') === 'light') document.body.classList.add('light');
-      } catch (e) { }
-
+      var path = location.pathname || '/';
       /* Drift back to the site after a beat rather than leaving someone on a
          dead end. It says so first, because a silent redirect reads as a
          glitch, and `replace` keeps the broken URL out of history so Back
