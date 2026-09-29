@@ -452,3 +452,13 @@
       .d-body { padding: 18px 18px 46px; }
       .kv-k { width: 76px; }
     }
+
+    /* ------------------------------------------------------------------- desktop */
+    /* The right pane's content starts exactly where the header's button group does,
+       so the two right-hand columns line up. The track follows the header's own
+       padding (the group is ~449px wide and the pane has 22px of padding), which
+       keeps the edges together at every width. Phones flatten the panes and
+       tablets use a single column, so neither is affected. */
+    @media (min-width: 901px) {
+      .panes { grid-template-columns: 220px minmax(0, 1fr) calc(clamp(20px, 4vw, 44px) + 471px); }
+    }
