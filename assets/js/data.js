@@ -52,9 +52,9 @@ window.SITE = {
   ],
 
   projects: [
-    { name: 'Talos Kubernetes Deployment on VMware', tech: 'kubernetes · vmware · IaC', year: '2025', blurb: 'Kubernetes on Talos VMs — identical nodes from one official OVA', url: 'https://github.com/hellboyhha/talos-on-vmware' },
+    { name: 'Talos Kubernetes Deployment on VMware', tech: 'kubernetes · vmware · infrastructure as code', year: '2025', blurb: 'Kubernetes on Talos VMs — identical nodes from one official OVA', url: 'https://github.com/hellboyhha/talos-on-vmware' },
     { name: 'Selenium UI Python Testcase in GitHub Actions', tech: 'python · github actions · testing', year: '2023', blurb: 'Selenium browser tests in CI — results published back into the run', url: 'https://github.com/hellboyhha/run-selenium-ui-python-testcase-using-githubaction' },
-    { name: 'ML Model Deployment on Azure ML Studio', tech: 'mlflow · azure ml · ci/cd', year: '2023', blurb: 'Model, environment and endpoint deployed by pipeline, not by hand', url: 'https://github.com/hellboyhha/mlmodel-deployment-using-githubaction-on-azuremlstudio' },
+    { name: 'ML Model Deployment on Azure ML Studio', tech: 'mlflow · azure ml · continuous integration & delivery', year: '2023', blurb: 'Model, environment and endpoint deployed by pipeline, not by hand', url: 'https://github.com/hellboyhha/mlmodel-deployment-using-githubaction-on-azuremlstudio' },
     { name: 'CI/CD on Azure Databricks with Azure DevOps', tech: 'databricks · azure devops', year: '2023', blurb: 'Databricks batch pipelines built to survive a regional outage', url: 'https://github.com/hellboyhha/cicd-on-azure-databricks-using-azuredevops' },
     { name: 'Terraform, Terragrunt & Terratest — Static Hosting on S3', tech: 'terraform · terragrunt · terratest', year: '2023', blurb: 'Layered with Terragrunt, verified by Terratest before it deploys', url: 'https://github.com/hellboyhha/aws-s3-static-website-terraform-terragrunt-terratest' }
   ],
