@@ -406,9 +406,9 @@
         margin: 0 0 9px; padding: 13px 14px; cursor: pointer;
         background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
       }
-      tbody tr.alt td { background: none; }
-      tbody tr:hover td { background: none; }
-      tbody tr[aria-current="true"] { border-color: var(--accent); }
+      /* Cards are uniform; a "selected" row is meaningless here because the
+         sheet covers the list the moment a card is opened. */
+      tbody tr.alt td, tbody tr:hover td, tbody tr[aria-current="true"] td { background: none; }
       tbody td { min-width: 0; width: auto !important; padding: 0; border: 0; text-align: left !important; }
       tbody td:first-child { flex: 1 1 100%; }
       tbody td:not(:first-child) { flex: 0 0 auto; }
